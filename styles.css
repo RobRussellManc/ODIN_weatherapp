@@ -1,27 +1,48 @@
+body {
+    background-color: rgb(151, 188, 223);
+    display: flex;
+    justify-content: center;
+}
 
 
-
-.weather_tables {
+.weather_tables  {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: min(70%, 600px);
     gap: 25px;
 }
 
-.weather_day {
-    border: 3px solid black;
+.weather_day, .location {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: white;
+}
+
+.location {
+    font-size: larger;
+    text-align: center;
+    font-weight: bolder;
+    border: 2px solid blue
 }
 
 .day_header {
-    margin: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+    font-weight: bold;
 }
 
 table.weather_table {
     border-collapse: collapse; /* Ensures borders collapse */
+    width: 100%;
 }
 
 table.weather_table th,
 table.weather_table td {
     border: 1px solid red; /* Borders for table cells */
     text-align: center;
+}
+
+.weather_table th:nth-child(3),
+.weather_table td:nth-child(3) {
+    width: 190px; /* Fixed width for the first column */
 }

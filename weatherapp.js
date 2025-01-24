@@ -31,9 +31,21 @@ function filter_array(input_array) {
 
 // Connect to API
 const api_key = 'C9BGJFM8DMJWTTAP7EFWRD384'
-const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/manchester?key='
+const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
+const api_location = 'manchester'
 
-const full_API = `${api_url}${api_key}`
+
+function capatalise(word) {
+    const firstletter = word.charAt(0).toUpperCase()
+    return firstletter + word.slice(1) 
+}
+
+const api_location_capatalised = capatalise(api_location)
+
+
+
+
+const full_API = `${api_url}${api_location}?key=${api_key}`
 
 
 function get_data() {
@@ -54,18 +66,39 @@ function get_data() {
 };
 
 
+// Display location
+const location_div = document.querySelector('.location')
+location_div.textContent = `Current location: ${api_location_capatalised}`;
+
+
 const weather_tables_div = document.querySelector('.weather_tables')
 
 
 get_data().then(weather_data => {
     console.log(weather_data)
 
+    // Loop over each day
+    // Use a counter to help display Today, Tomorrow and/or dates
+    let count = 0;
     for (const day in weather_data) {
         const days_weather = weather_data[day]
         console.log(days_weather)
-        const temp_box = build_weather_flexbox(day, days_weather)
+        if (count == 0) {
+            const temp_box = build_weather_flexbox(`Today (${day})`, days_weather)
+            weather_tables_div.appendChild(temp_box)
+            count = count + 1
+        } if (count == 1) {
+            const temp_box = build_weather_flexbox(`Tomorrow (${day})`, days_weather)
+            weather_tables_div.appendChild(temp_box)
+            count = count + 1
+        } else {
+            const temp_box = build_weather_flexbox(day, days_weather)
+            weather_tables_div.appendChild(temp_box)
+            count = count + 1
+        }
+        
 
-        weather_tables_div.appendChild(temp_box)
+        
 
     }
 })

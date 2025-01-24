@@ -40,7 +40,9 @@ const build_table = function(data) {
 
     // Add header cells to table header row
     table_headers_names.forEach(element => {
-        table_header.appendChild(create_cell('th', element))
+        const temp_cell = create_cell('th', element);
+        
+        table_header.appendChild(temp_cell)
     }); 
 
     // Add table header to table object
