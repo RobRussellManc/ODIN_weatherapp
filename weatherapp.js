@@ -1,13 +1,13 @@
-console.log('hi')
-
+import build_table from "./build_weather_table.js";
 
 // Things my weather app will show
 
 const to_show = [
     'datetime',
     'hours',
+    'conditions',
     'temp',
-    'windir',
+    'winddir',
     'windspeed',
     'cloudcover',
     'pressure',
@@ -32,18 +32,47 @@ const api_key = 'C9BGJFM8DMJWTTAP7EFWRD384'
 const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london?key='
 
 const full_API = `${api_url}${api_key}`
-//console.log(full_API)
 
-fetch(full_API, {mode: 'cors'})
-.then(function(response) {
-    return response.json()
+
+function get_data() {
+    return fetch(full_API, {mode: 'cors'})
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(response) {
+
+            const seven_days = response.days.slice(0,7);
+
+            const my_data = seven_days.reduce((acc, { datetime, hours }) => {
+                acc[datetime] = filter_array(hours); // Add the key-value pair to the accumulator
+                return acc;            // Return the updated accumulator
+            }, {});
+            return my_data
+        })
+};
+
+
+const weather_tables_div = document.querySelector('.weather_tables')
+
+
+get_data().then(weather_data => {
+    console.log(weather_data)
+
+    for (const day in weather_data) {
+        const days_weather = weather_data[day]
+        console.log(days_weather)
+        const temp_table = build_table(days_weather)
+        weather_tables_div.appendChild(temp_table)
+
+    }
+
+
+
+
 })
-.then(function(response) {
-    console.log(response)
-    const seven_days = response.days.slice(0,7);
-    console.log(seven_days)
-    const extracted_info = filter_array(seven_days)
-    console.log(extracted_info)
-} )
 
+
+
+//
+//
 
