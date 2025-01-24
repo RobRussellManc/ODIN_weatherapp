@@ -1,0 +1,27 @@
+
+
+
+.weather_tables {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 25px;
+}
+
+.weather_day {
+    border: 3px solid black;
+}
+
+.day_header {
+    margin: 10px;
+}
+
+table.weather_table {
+    border-collapse: collapse; /* Ensures borders collapse */
+}
+
+table.weather_table th,
+table.weather_table td {
+    border: 1px solid red; /* Borders for table cells */
+    text-align: center;
+}

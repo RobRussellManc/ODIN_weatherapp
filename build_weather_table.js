@@ -33,6 +33,7 @@ const build_table = function(data) {
 
 
     const table = document.createElement('table')
+    table.classList = 'weather_table'
 
 
     const table_header = create_row()

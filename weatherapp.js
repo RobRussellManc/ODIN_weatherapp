@@ -1,4 +1,6 @@
 import build_table from "./build_weather_table.js";
+import build_weather_flexbox from "./build_weather_flexbox.js";
+
 
 // Things my weather app will show
 
@@ -29,7 +31,7 @@ function filter_array(input_array) {
 
 // Connect to API
 const api_key = 'C9BGJFM8DMJWTTAP7EFWRD384'
-const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/london?key='
+const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/manchester?key='
 
 const full_API = `${api_url}${api_key}`
 
@@ -61,18 +63,12 @@ get_data().then(weather_data => {
     for (const day in weather_data) {
         const days_weather = weather_data[day]
         console.log(days_weather)
-        const temp_table = build_table(days_weather)
-        weather_tables_div.appendChild(temp_table)
+        const temp_box = build_weather_flexbox(day, days_weather)
+
+        weather_tables_div.appendChild(temp_box)
 
     }
-
-
-
-
 })
 
 
-
-//
-//
 
