@@ -5,18 +5,20 @@ body {
 }
 
 
-.weather_tables  {
+.main_content  {
     display: flex;
     flex-direction: column;
     width: min(70%, 600px);
     gap: 25px;
 }
 
-.weather_day, .location {
+.weather_day, .location, .search_bar {
     border: 1px solid black;
     padding: 10px;
     background-color: white;
 }
+
+
 
 .location {
     font-size: larger;
@@ -29,6 +31,15 @@ body {
     margin-bottom: 10px;
     font-size: large;
     font-weight: bold;
+}
+
+.search {
+    display: inline-block;
+}
+
+.failed_search {
+    display: inline-block;
+    color: red;
 }
 
 table.weather_table {
