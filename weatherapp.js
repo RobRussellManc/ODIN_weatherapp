@@ -1,5 +1,6 @@
 import build_table from "./build_weather_table.js";
 import build_weather_flexbox from "./build_weather_flexbox.js";
+import remove_old_hours from "./remove_past_hours.js";
 
 // Things my weather app will show
 
@@ -45,14 +46,14 @@ function capatalise(word) {
 
 function get_data(location) {
     const full_API = `${api_url}${location}?key=${api_key}`
-    console.log(full_API)
+    //console.log(full_API)
     return fetch(full_API, {mode: 'cors'})
         .then(function(response) {
             return response.json()
         })
         .then(function(response) {
 
-            console.log(response)
+            //console.log(response)
             if (!response) {
                 search_result(false)
                 return null
@@ -106,7 +107,10 @@ display_location(default_api_location)
 
 const weather_tables_div = document.querySelector('.weather_tables')
 
-get_data('liverpool')
+get_data('Manchester')
+
+
+
 
 const display_data = (weather_data) => {
     // Clear existing weather data 
@@ -117,9 +121,11 @@ const display_data = (weather_data) => {
     let count = 0;
     for (const day in weather_data) {
         const days_weather = weather_data[day]
-        console.log(days_weather)
+        //console.log(days_weather)
         if (count == 0) {
             const temp_box = build_weather_flexbox(`Today (${day})`, days_weather)
+            const table_rows = temp_box.querySelector('.day_content').querySelector('.weather_table').querySelectorAll('.weather_row')
+            remove_old_hours(table_rows)
             weather_tables_div.appendChild(temp_box)
             count = count + 1
         } if (count == 1) {
@@ -149,7 +155,6 @@ search_button.addEventListener("click", function(event) {
 
     return search_term
 })
-
 
 
 

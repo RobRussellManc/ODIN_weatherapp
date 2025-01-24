@@ -36,7 +36,7 @@ const build_table = function(data) {
     table.classList = 'weather_table'
 
 
-    const table_header = create_row()
+    const table_header = document.createElement('tr')
 
     // Add header cells to table header row
     table_headers_names.forEach(element => {
@@ -53,9 +53,12 @@ const build_table = function(data) {
     
     data.forEach(element => {
         const temp_row = create_row()
+        temp_row.classList = 'weather_row'
         API_names.forEach(name => {
             const data = element[name]
             const temp_cell = create_cell('td', data)
+            temp_cell.classList = name
+            
             temp_row.appendChild(temp_cell)
         })
         table.appendChild(temp_row)
