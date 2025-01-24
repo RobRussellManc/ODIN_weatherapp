@@ -53,7 +53,7 @@ function get_data(location) {
         })
         .then(function(response) {
 
-            //console.log(response)
+            //if not result was found/search failed
             if (!response) {
                 search_result(false)
                 return null
@@ -63,20 +63,13 @@ function get_data(location) {
 
                 // Remove the failed search warning if it's displaying
                 search_result(true)
-
-                const seven_days = response.days.slice(0,7);
-
-                const my_data = seven_days.reduce((acc, { datetime, hours }) => {
-                    acc[datetime] = filter_array(hours); // Add the key-value pair to the accumulator
-                    return acc;            // Return the updated accumulator
-                }, {});
-
-                // Display the weather data 
-                display_data(my_data)
                 
+                console.log(response)
+                const currentConditions= response.currentConditions
+                //console.log(currentConditions)
+                // Display the weather data 
+                display_data(response)
             }
-
-           
         })
         .catch(function(error) {
             search_result()
@@ -110,22 +103,48 @@ const weather_tables_div = document.querySelector('.weather_tables')
 get_data('Manchester')
 
 
+const displayCurrentConditions = (data) => {
+    const currentInfoDiv = document.querySelector('.current_time');
+    const currentSunRiseDiv = document.querySelector('.sunset')
 
 
-const display_data = (weather_data) => {
+    const currentTime = data.currentConditions.datetime.slice(0, 5)
+    const sunrise = data.currentConditions.sunrise.slice(0, 5)
+    const sunset = data.currentConditions.sunset.slice(0, 5)
+
+    const timeString = `The current time in ${data.address} is ${currentTime}`
+
+    currentInfoDiv.textContent = timeString
+    currentSunRiseDiv.textContent = `Sunrise: ${sunrise}      Sunset: ${sunset}`
+}
+
+
+
+const display_data = (data) => {
+
+    displayCurrentConditions(data)
+
+    const seven_days = data.days.slice(0,7);
+
+    const seven_days_hours = seven_days.reduce((acc, { datetime, hours }) => {
+        acc[datetime] = filter_array(hours); // Add the key-value pair to the accumulator
+        return acc;            // Return the updated accumulator
+    }, {});
+
+
     // Clear existing weather data 
     document.querySelector('.weather_tables').innerHTML = '';
 
     // Loop over each day
     // Use a counter to help display Today, Tomorrow and/or dates
     let count = 0;
-    for (const day in weather_data) {
-        const days_weather = weather_data[day]
+    for (const day in seven_days_hours) {
+        const days_weather = seven_days_hours[day]
         //console.log(days_weather)
         if (count == 0) {
             const temp_box = build_weather_flexbox(`Today (${day})`, days_weather)
             const table_rows = temp_box.querySelector('.day_content').querySelector('.weather_table').querySelectorAll('.weather_row')
-            remove_old_hours(table_rows)
+            remove_old_hours(table_rows, data.currentConditions.datetime.split(':')[0])
             weather_tables_div.appendChild(temp_box)
             count = count + 1
         } if (count == 1) {

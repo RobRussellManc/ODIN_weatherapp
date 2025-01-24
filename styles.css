@@ -20,11 +20,17 @@ body {
 
 
 
-.weather_day, .location, .search_bar {
+.weather_day, .location, .search_bar, .current_info {
     border: 1px solid black;
     padding: 10px;
     background-color: white;
     text-align: center;
+}
+
+.header_info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 

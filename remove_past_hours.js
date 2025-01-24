@@ -1,10 +1,9 @@
-const remove_old_hours = (rows) => {
-    const now_hours = new Date().getHours()
+const remove_old_hours = (rows, currentHour) => {
 
     rows.forEach(row => {
         const row_hour= Number(row.querySelector('.datetime').innerHTML.split(':')[0])
 
-        if (row_hour < now_hours) {
+        if (row_hour < currentHour) {
             row.classList.add('hidden')
         }
    
