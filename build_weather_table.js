@@ -19,6 +19,13 @@ const table_headers_names = [
     'Precip'
 ]
 
+
+const user_defaults =  {
+    'temp' : 'temp_C',
+    'wind': 'windspeed_mph'
+}
+
+// What to show on the page
 const API_names = [
     'datetime',
     'temp',
@@ -55,11 +62,28 @@ const build_table = function(data) {
         const temp_row = create_row()
         temp_row.classList = 'weather_row'
         API_names.forEach(name => {
-            const data = element[name]
-            const temp_cell = create_cell('td', data)
-            temp_cell.classList = name
+            // Handle defaults
+            if (name == 'windspeed') {
+                const default_wind = user_defaults['wind']
+                const data = element[default_wind]
+                const temp_cell = create_cell('td', data)
+                temp_cell.classList = name
+                temp_row.appendChild(temp_cell)
+            } else if (name == 'temp') {
+                const default_temp = user_defaults['temp']
+                const data = element[default_temp]
+                const temp_cell = create_cell('td', data)
+                temp_cell.classList = name
+                temp_row.appendChild(temp_cell)
+            } else {
+                const data = element[name]
+                const temp_cell = create_cell('td', data)
+                temp_cell.classList = name
+                temp_row.appendChild(temp_cell)
+            }
+
+
             
-            temp_row.appendChild(temp_cell)
         })
         table.appendChild(temp_row)
     })

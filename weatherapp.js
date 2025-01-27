@@ -3,7 +3,7 @@ import build_weather_flexbox from "./build_weather_flexbox.js";
 import remove_old_hours from "./remove_past_hours.js";
 import {filter_array, capatalise} from "./dataProcessing.js";
 
-// Things my weather app will show
+
 
 
 
@@ -33,7 +33,7 @@ function get_data(location) {
                 // Remove the failed search warning if it's displaying
                 search_result(true)
                 
-                console.log(response)
+                //console.log(response)
                 const currentConditions= response.currentConditions
 
                 // Display the weather data 
@@ -90,6 +90,9 @@ const displayCurrentConditions = (data) => {
 
 const display_data = (data) => {
 
+    console.log(data)
+    
+
     // Update current conditions box
     displayCurrentConditions(data)
     // Display the location at top of page
@@ -105,6 +108,8 @@ const display_data = (data) => {
         return acc;            // Return the updated accumulator
     }, {});
 
+    console.log(seven_days_hours)
+
     
 
     // Loop over each day
@@ -112,17 +117,15 @@ const display_data = (data) => {
     let count = 0;
     for (const day in seven_days_hours) {
         const days_weather = seven_days_hours[day]
-        console.log(days_weather)
-        console.log(count)
+        //console.log(days_weather)
+        //console.log(count)
         if (count == 0) {
-            console.log('00')
             const temp_box = build_weather_flexbox(`Today (${day})`, days_weather)
             const table_rows = temp_box.querySelector('.day_content').querySelector('.weather_table').querySelectorAll('.weather_row')
             remove_old_hours(table_rows, data.currentConditions.datetime.split(':')[0])
             weather_tables_div.appendChild(temp_box)
             
         } else if (count == 1) {
-            console.log('11')
             const temp_box = build_weather_flexbox(`Tomorrow (${day})`, days_weather)
             weather_tables_div.appendChild(temp_box)
 
