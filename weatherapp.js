@@ -2,7 +2,7 @@ import build_table from "./build_weather_table.js";
 import build_weather_flexbox from "./build_weather_flexbox.js";
 import remove_old_hours from "./remove_past_hours.js";
 import {filter_array, capatalise} from "./dataProcessing.js";
-
+import {userPreferences} from "./userPreferences.js";
 
 
 
@@ -13,6 +13,10 @@ import {filter_array, capatalise} from "./dataProcessing.js";
 const api_key = 'C9BGJFM8DMJWTTAP7EFWRD384'
 const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
 const default_api_location = 'manchester'
+
+// Declare global variable to store data 
+let myData;
+
 
 
 function get_data(location) {
@@ -38,6 +42,10 @@ function get_data(location) {
 
                 // Display the weather data 
                 display_data(response)
+                const myData = response
+
+                switchPreferences(response)
+
             }
         })
         .catch(function(error) {
@@ -73,6 +81,7 @@ const weather_tables_div = document.querySelector('.weather_tables')
 get_data('Manchester')
 
 
+
 const displayCurrentConditions = (data) => {
     const currentInfoDiv = document.querySelector('.current_time');
     const currentSunRiseDiv = document.querySelector('.sunset')
@@ -90,7 +99,8 @@ const displayCurrentConditions = (data) => {
 
 const display_data = (data) => {
 
-    console.log(data)
+    const userDefaults = userPreferences.get_user_default()
+    console.log(userPreferences)
     
 
     // Update current conditions box
@@ -120,17 +130,17 @@ const display_data = (data) => {
         //console.log(days_weather)
         //console.log(count)
         if (count == 0) {
-            const temp_box = build_weather_flexbox(`Today (${day})`, days_weather)
+            const temp_box = build_weather_flexbox(`Today (${day})`, days_weather, userDefaults)
             const table_rows = temp_box.querySelector('.day_content').querySelector('.weather_table').querySelectorAll('.weather_row')
             remove_old_hours(table_rows, data.currentConditions.datetime.split(':')[0])
             weather_tables_div.appendChild(temp_box)
             
         } else if (count == 1) {
-            const temp_box = build_weather_flexbox(`Tomorrow (${day})`, days_weather)
+            const temp_box = build_weather_flexbox(`Tomorrow (${day})`, days_weather, userDefaults)
             weather_tables_div.appendChild(temp_box)
 
         } else {
-            const temp_box = build_weather_flexbox(day, days_weather)
+            const temp_box = build_weather_flexbox(day, days_weather, userDefaults)
             weather_tables_div.appendChild(temp_box)
 
         }  
@@ -155,4 +165,23 @@ search_button.addEventListener("click", function(event) {
 })
 
 
+
+const switchPreferences = function (data) {
+
+    const tempPref = document.querySelectorAll('.tempPref');
+    tempPref.forEach(button => {
+        button.addEventListener("click", (event) => {
+            if (button.id == 'temp_C') {
+                userPreferences.F_to_C()
+                console.log('C')
+    
+            } else {
+                userPreferences.C_to_F()
+                console.log('F')
+            }
+            console.log(data)
+            display_data(data)
+        })
+    })
+};
 

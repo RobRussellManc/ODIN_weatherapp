@@ -20,10 +20,6 @@ const table_headers_names = [
 ]
 
 
-const user_defaults =  {
-    'temp' : 'temp_C',
-    'wind': 'windspeed_mph'
-}
 
 // What to show on the page
 const API_names = [
@@ -36,7 +32,12 @@ const API_names = [
 ]
 
 
-const build_table = function(data) {
+
+
+
+
+
+const build_table = function(data, userDefaults) {
 
 
     const table = document.createElement('table')
@@ -59,18 +60,23 @@ const build_table = function(data) {
     // Accepts hours array
     
     data.forEach(element => {
+        // get user defaults 
+        //const user_defaults = userPreferences.get_user_default()
+        console.log('hello')
+
+
         const temp_row = create_row()
         temp_row.classList = 'weather_row'
         API_names.forEach(name => {
             // Handle defaults
             if (name == 'windspeed') {
-                const default_wind = user_defaults['wind']
+                const default_wind = userDefaults['wind']
                 const data = element[default_wind]
                 const temp_cell = create_cell('td', data)
                 temp_cell.classList = name
                 temp_row.appendChild(temp_cell)
             } else if (name == 'temp') {
-                const default_temp = user_defaults['temp']
+                const default_temp = userDefaults['temp']
                 const data = element[default_temp]
                 const temp_cell = create_cell('td', data)
                 temp_cell.classList = name
