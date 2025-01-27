@@ -62,7 +62,6 @@ const build_table = function(data, userDefaults) {
     data.forEach(element => {
         // get user defaults 
         //const user_defaults = userPreferences.get_user_default()
-        console.log('hello')
 
 
         const temp_row = create_row()

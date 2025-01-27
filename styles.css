@@ -27,6 +27,19 @@ body {
     text-align: center;
 }
 
+.user_defaults {
+    display: flex;
+    justify-content: space-around;
+}
+
+.userpref {
+   
+}
+
+.button_active {
+    background-color: green;
+}
+
 .header_info {
     display: flex;
     flex-direction: column;

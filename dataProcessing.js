@@ -26,10 +26,10 @@ function filter_array(input_array) {
         const filtered = {};
         to_show.forEach(key => {
             if (key == 'temp') {
-                filtered[key+"_F"] = item[key]
+                filtered[key+"_F"] = Math.round(item[key])
                 filtered[key+"_C"] = tempToC(item[key])
             } if (key == 'windspeed') {
-                filtered[key+"_kph"] = item[key]
+                filtered[key+"_kph"] = Math.round(item[key])
                 filtered[key+"_mph"] = windToMPH(item[key])
             }
                 else if (key in item) {
