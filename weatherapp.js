@@ -1,47 +1,18 @@
 import build_table from "./build_weather_table.js";
 import build_weather_flexbox from "./build_weather_flexbox.js";
 import remove_old_hours from "./remove_past_hours.js";
+import {filter_array, capatalise} from "./dataProcessing.js";
 
 // Things my weather app will show
 
-const to_show = [
-    'datetime',
-    'hours',
-    'conditions',
-    'temp',
-    'winddir',
-    'windspeed',
-    'cloudcover',
-    'pressure',
-    'precip'
-]
 
-function filter_array(input_array) {
-    const output_array = input_array.map(item => {
-        const filtered = {};
-        to_show.forEach(key => {
-            if (key in item) {
-                filtered[key] = item[key]
-            }
-        });
-        return filtered;
-    })
-    return output_array
-}
+
+
 
 // Connect to API
 const api_key = 'C9BGJFM8DMJWTTAP7EFWRD384'
 const api_url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/'
 const default_api_location = 'manchester'
-
-
-function capatalise(word) {
-    const firstletter = word.charAt(0).toUpperCase()
-    return firstletter + word.slice(1) 
-}
-
-
-
 
 
 function get_data(location) {
@@ -59,13 +30,12 @@ function get_data(location) {
                 return null
             } else {
                  
-
                 // Remove the failed search warning if it's displaying
                 search_result(true)
                 
                 console.log(response)
                 const currentConditions= response.currentConditions
-                //console.log(currentConditions)
+
                 // Display the weather data 
                 display_data(response)
             }
@@ -74,6 +44,7 @@ function get_data(location) {
             search_result()
         })
 };
+
 
 
 // Handle failed search
@@ -87,7 +58,7 @@ const search_result = (success) => {
 
 }
 
-// Display location
+// Display location at top of page
 const display_location = (search_term) => {
     const api_location_capatalised = capatalise(search_term)
     const location_div = document.querySelector('.location')
@@ -97,6 +68,8 @@ const display_location = (search_term) => {
 
 const weather_tables_div = document.querySelector('.weather_tables')
 
+
+// Load default location upon page load 
 get_data('Manchester')
 
 
@@ -117,9 +90,13 @@ const displayCurrentConditions = (data) => {
 
 const display_data = (data) => {
 
+    // Update current conditions box
     displayCurrentConditions(data)
     // Display the location at top of page
     display_location(data.resolvedAddress)
+    // Clear existing weather data 
+    document.querySelector('.weather_tables').innerHTML = '';
+
 
     const seven_days = data.days.slice(0,7);
 
@@ -128,11 +105,7 @@ const display_data = (data) => {
         return acc;            // Return the updated accumulator
     }, {});
 
-   
-
-
-    // Clear existing weather data 
-    document.querySelector('.weather_tables').innerHTML = '';
+    
 
     // Loop over each day
     // Use a counter to help display Today, Tomorrow and/or dates
@@ -164,7 +137,7 @@ const display_data = (data) => {
 
 
 
-// Search bar
+// Search bar stuff
 const search_button = document.querySelector('#search_submit')
 
 search_button.addEventListener("click", function(event) {
