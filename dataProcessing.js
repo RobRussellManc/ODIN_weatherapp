@@ -13,7 +13,7 @@ const to_show = [
 
 
 const tempToC = (data) => {
-    return Math.round((data - 23) / (9/5))
+    return Math.round((data - 32) / (9/5))
 }
 
 const windToMPH = (data) => {

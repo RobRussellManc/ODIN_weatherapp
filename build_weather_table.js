@@ -34,7 +34,11 @@ const API_names = [
 
 
 
-
+const createWindCell = (cell_type, rotation) => {
+    const cell = document.createElement(cell_type);
+    cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black" transform=rotate(${rotation})><path d="M440-80v-647L256-544l-56-56 280-280 280 280-56 57-184-184v647h-80Z"/></svg>`;
+    return cell 
+}
 
 
 const build_table = function(data, userDefaults) {
@@ -80,6 +84,12 @@ const build_table = function(data, userDefaults) {
                 const temp_cell = create_cell('td', data)
                 temp_cell.classList = name
                 temp_row.appendChild(temp_cell)
+            } else if (name == 'winddir') {
+                const data = element[name]
+                const temp_cell = createWindCell('td', data)
+                temp_cell.classList = name
+                temp_row.appendChild(temp_cell)
+
             } else {
                 const data = element[name]
                 const temp_cell = create_cell('td', data)

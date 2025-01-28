@@ -97,6 +97,7 @@ const extractSevenDays = (data) => {
 
 const display_data = (data) => {
 
+    console.log(data)
     // Select the container to insert weather info into
     const weather_tables_div = document.querySelector('.weather_tables')
 
@@ -117,6 +118,8 @@ const display_data = (data) => {
 
     // Extract the 7 days info from the data object
     const seven_days_hours = extractSevenDays(data);
+
+    console.log(seven_days_hours)
 
     // Loop over each day
     // Use a counter to help display Today, Tomorrow and/or dates
