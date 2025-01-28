@@ -9,7 +9,6 @@ const updateButtonColour = () => {
     
     for (const key in userDefaults) {
         if (userDefaults[key] == 'temp_C') {
-            console.log('asfasf')
             temp_c_button.classList.add('button_active')
             temp_f_button.classList.remove('button_active')
         } else if (userDefaults[key] == 'temp_F') {
