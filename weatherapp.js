@@ -13,7 +13,26 @@ const default_api_location = 'manchester'
 let myData;
 
 
+// Get data using async/await function
+async function get_data(location) {
+    const full_API = `${api_url}${location}?key=${api_key}`
 
+    try  {
+        const response = await fetch(full_API, {mode: 'cors'})
+        const weatherData = await response.json()
+        if (!response) {
+            search_result(false)
+        } else {
+            display_data(weatherData)
+            switchPreferences(weatherData)
+        }
+    } catch(error) {
+        search_result(false)
+    }
+
+}
+
+/*
 function get_data(location) {
     const full_API = `${api_url}${location}?key=${api_key}`
 
@@ -41,6 +60,7 @@ function get_data(location) {
         })
 };
 
+*/
 
 
 // Handle failed search
@@ -60,9 +80,6 @@ const display_location = (search_term) => {
     const location_div = document.querySelector('.location')
     location_div.textContent = `Current location: ${api_location_capatalised}`;    
 }
-
-
-
 
 
 // Load default location upon page load 
